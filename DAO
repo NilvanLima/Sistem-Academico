@@ -1,0 +1,19 @@
+package com.mycompany.sistemaacademico;
+
+import java.sql.*;
+
+public class DAO {
+    //Data Acess Object, encapsular o código de acesso a base de dados
+    public boolean existe(Usuario usuario) throws Exception{
+        String sql = "SELECT * FROM tb_usuario WHERE nome = ? AND senha = ?";
+        ConnectionFactory c = new ConnectionFactory();
+        try(Connection conn = c.obtemConexao(); 
+        PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, usuario.getNome());
+            ps.setString(2, usuario.getSenha());
+            try(ResultSet rs = ps.executeQuery()){
+                return rs.next();
+            }
+        }
+    }    
+}
